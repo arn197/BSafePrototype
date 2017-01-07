@@ -53,7 +53,6 @@ li a:hover {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-
       testAPI();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -101,12 +100,6 @@ li a:hover {
     statusChangeCallback(response);
   });
 
-  function logout(){
-  FB.logout(function(response) {
-  // user is now logged out
-  });
-}
-
   };
 
   // Load the SDK asynchronously
@@ -123,7 +116,6 @@ li a:hover {
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
-
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
@@ -136,7 +128,6 @@ li a:hover {
       <li><a href="/view" style="font-family:verdana">View</a></li>
       <li><fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button></li>
       <li><div id="status"></div></li>
-      <li><a onclick="logout()">Logout</a>
     </ul>
     <div id="map"></div>
     <script>
