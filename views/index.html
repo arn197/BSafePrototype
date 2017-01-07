@@ -119,6 +119,17 @@ li a:hover {
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
+      var uid = response.authResponse.userID;
+      var accessToken = response.authResponse.accessToken;
+      var data = {"id":uid,"tok":accessToken};
+      
+      $.ajax({
+  type: "POST",
+  url: "/sendata",
+  data: data,
+  success: success,
+  dataType: dataType
+});
     });
   }
     </script>
