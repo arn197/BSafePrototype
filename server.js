@@ -10,11 +10,11 @@ MongoClient.connect('mongodb://arn197:hellobyebye@ds155028.mlab.com:55028/bsafe'
 });
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '/views/heatmap.html');
 })
 
 app.get('/view',function(req,res){
-  res.sendFile(__dirname + '/views/heatmap.html');
+  res.sendFile(__dirname + '/views/index.html');
 })
 
 app.get('/views',function(req,res){
