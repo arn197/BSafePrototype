@@ -4,6 +4,10 @@ var request = require('request');
 var app = express();
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded())
+
 var db;
 var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb://arn197:hellobyebye@ds155028.mlab.com:55028/bsafe',function(err, database){     
@@ -27,16 +31,9 @@ app.get('/views',function(req,res){
 	});
 })
 
-app.get('/sendata',function(req,res){
-	var data;
-	var id = req.body.id;
-	var token = req.body.tok;
-	request('http://graph.facebook.com/' + id, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        console.log(body); // Show the HTML for the Modulus homepage.
-        data = body;
-    }
-	});
+app.post('/sendata',function(req,res){
+	console.log(req.body);
+	db.collection('userdetails').insert({id : req.body.id,name: req.body.name, email: req.body.email, gender: req.body.gender, approved: 0});
 })
 
 app.listen(3000, function () {

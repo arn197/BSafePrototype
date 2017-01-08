@@ -53,7 +53,7 @@ li a:hover {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI();
+      testAPI(response);
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -71,7 +71,7 @@ li a:hover {
   // code below.
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
+        statusChangeCallback(response);
     });
   }
 
@@ -113,25 +113,24 @@ li a:hover {
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
+  function testAPI(res) {
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
+    var uid,accessToken;
+    tok = res.authResponse.accessToken;
+    FB.api('/me?fields=name,email,gender',{accessToken : tok},function(response) {
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
-      var uid = response.authResponse.userID;
-      var accessToken = response.authResponse.accessToken;
-      var data = {"id":uid,"tok":accessToken};
-      
+      uid = response.id;
       $.ajax({
-  type: "POST",
-  url: "/sendata",
-  data: data,
-  success: success,
-  dataType: dataType
+  url: '/sendata',
+  data: { id: response.id, name: response.name, email: response.email, gender: response.gender},
+  type: 'POST',
 });
     });
-  }
+    // $.post( "/sendata", { "details" : resp } );
+    
+    }
     </script>
     <ul>
       <li><a href="/" style="font-family:verdana;font-size: 18px;">BSafe</a></li>
